@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fresh Tomatoes!</title>
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <style type="text/css" media="screen">
+        body {
+            padding-top: 80px;
+        }
+        .video-tile {
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+        .video-tile:hover {
+            background-color: #EEE;
+            cursor: pointer;
+        }
+
+        .modal-dialog {
+            margin-top: 100px;
+        }
+        .modal-body {
+        	margin-top: 20px;
+        	height: 350px;
+        }
+        .hanging-close {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            z-index: 9001;
+        }
+        iframe {
+         	border: none;
+            height: 300px;
+            width: 100%;
+    	  }
+    	  .description {
+    		  padding: 5px 10px;
+    		  width: 50%;
+    		  height: 100%;
+    		  text-align: justify;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+
+
+        // Opens the description and trailer of the video
+        $(document).on('click', '.video-tile', function(event) {
+        	var title = $(this).attr('data-title');
+        	var storyline = $(this).attr('data-storyline');
+        	var duration = $(this).attr('data-duration');
+        	var stars = $(this).attr('data-stars');
+        	var genre = $(this).attr('data-genre');
+        	var rating = $(this).attr('data-rating');
+          var p_rating = $(this).attr('data-parental-rating');
+        	var youtube_id = $(this).attr('data-trailer-youtube-id');
+
+          var year = $(this).attr('data-year');
+          var season = $(this).attr('data-season');
+          var season_title = $(this).attr('data-seasontitle');
+          var episode = $(this).attr('data-episode');
+          var tv_station = $(this).attr('data-tvstation');
+        	
+        	var embedded_url = 'http://www.youtube.com/embed/' + youtube_id + '?autoplay=0&html5=1';
+        	
+          if (isNaN(year)) {
+            $("#videoInfo h3").empty().append(season_title + '<br/>' + 'Season: <b>' + season + '</b>, Episode: <b>' + episode + '</b>');
+            $("#videoInfo .tvstation").empty().append('AIRED ON <b>' + tv_station + '</b>');
+          }
+          else {
+            $("#videoInfo h3").empty().append(title + ' (' + year + ')');
+            $("#videoInfo .tvstation").empty();
+          }
+        	$("#videoInfo .storyline").empty().html('<b>' + storyline + '</b>');
+        	$("#videoInfo .duration").empty().html('Duration: <b>' + duration + ' mins</b>');
+        	$("#videoInfo .stars").empty().append('<b>Stars:</b> ' + stars);
+        	$("#videoInfo .genre").empty().append('<b>' + genre + '</b>');
+        	$("#videoInfo .rating").empty().append('IMDb Rating: <b>' + rating + '</b>');
+        	$("#videoInfo .p-rating").empty().append('Parental Rating: <b>' + p_rating + '</b>');
+          $("#videoInfo iframe").attr('src', embedded_url);
+
+        });
+
+        // Pause the video when the modal is closed
+        $(document).on('click', '.hanging-close, .modal-backdrop', function (event) {
+            // Remove the src so the source of the file gets removed and assign it again
+            // so that the user can play it again
+            var video = $("iframe").attr("src");
+            $("iframe").attr("src", "");
+            $("iframe").attr("src", video);
+        });
+
+        // Animate in the videos' tiles when the page loads
+        $(document).ready(function () {
+          $('.video-tile').hide().first().show("fast", function showNext() {
+            $(this).next("div").show("fast", showNext);
+          });
+        });
+    
+
+  </script>
+  </head>
+  <body>
+  <!-- Video Description Modal -->
+  	<div class="modal fade" id="videoInfo">
+  	  <div class="modal-dialog modal-lg">
+  	    <div class="modal-content">
+  	      <div class="modal-header" style="padding:20px 30px">
+  	        <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+          </a>
+          <h3 class="modal-title" style="text-align:center"></h3>
+  	      </div>
+  	      <div class="modal-body">
+  	      	<div class="row">
+  	      	  <div class="description pull-right">
+  	      	  <iframe src=""></iframe>
+			  </div>
+			  <div class="description">
+			  	<p><span class="duration"></span><span class="pull-right genre"></span></p>
+			  	<p><span class="rating"></span><span class="pull-right p-rating"></span></p><br />
+			  	<p class="tvstation" style="text-align:center"></p>
+          <p class="stars"></p>
+			  	<p class="storyline"></p>
+			  </div>
+  	      	</div>
+
+  	      </div>
+  	    </div>
+  	  </div>
+  	</div>
+
+    <!-- Main Page Content -->
+    <div class="container">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Fresh Tomatoes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="zSWdZVtXT7E" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Interstellar"
+            data-storyline="A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival." data-duration="169" data-stars="Matthew McConaughey, Anne Hathaway, Jessica Chastain" 
+            data-genre= "Adventure, Drama, Sci-Fi" data-rating = "8.7" data-parental-rating="PG-13" data-year="2014">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg" width="220" height="342">
+    <h2>Interstellar</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="YoHD9XEInc0" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Inception"
+            data-storyline="A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO." data-duration="148" data-stars="Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page" 
+            data-genre= "Action, Mystery, Sci-Fi" data-rating = "8.8" data-parental-rating="PG-13" data-year="2010">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg" width="220" height="342">
+    <h2>Inception</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="5PSNL1qE6VY" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Avatar"
+            data-storyline="A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home." data-duration="162" data-stars="Sam Worthington, Zoe Saldana, Sigourney Weaver" 
+            data-genre= "Action, Adventure, Fantasy" data-rating = "7.9" data-parental-rating="PG-13" data-year="2009">
+
+    <img src="http://upload.wikimedia.org/wikipedia/id/b/b0/Avatar-Teaser-Poster.jpg" width="220" height="342">
+    <h2>Avatar</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="_PZpmTj1Q8Q" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "The Dark Knight"
+            data-storyline="When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice." data-duration="152" data-stars="Christian Bale, Heath Ledger, Aaron Eckhart" 
+            data-genre= "Action, Crime, Drama" data-rating = "9.0" data-parental-rating="PG-13" data-year="2008">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/8/8a/Dark_Knight.jpg" width="220" height="342">
+    <h2>The Dark Knight</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="mfmrPu43DF8" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "The Hunger Games"
+            data-storyline="Katniss Everdeen voluntarily takes her younger sister's place in the Hunger Games, a televised fight to the death in which two teenagers from each of the twelve Districts of Panem are chosen at random to compete." data-duration="142" data-stars="Jennifer Lawrence, Josh Hutcherson, Liam Hemsworth" 
+            data-genre= "Adventure, Drama, Sci-Fi" data-rating = "7.3" data-parental-rating="PG-13" data-year="2012">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/42/HungerGamesPoster.jpg" width="220" height="342">
+    <h2>The Hunger Games</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="znTLzRJimeY" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Troy"
+            data-storyline="An adaptation of Homer's great epic, the film follows the assault on Troy by the united Greek forces and chronicles the fates of the men involved." data-duration="163" data-stars="Brad Pitt, Eric Bana, Orlando Bloom" 
+            data-genre= "Adventure" data-rating = "7.2" data-parental-rating="R" data-year="2004">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/b/b8/Troy2004Poster.jpg" width="220" height="342">
+    <h2>Troy</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="SUXWAEX2jlg" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Fight Club"
+            data-storyline="An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soap maker, forming an underground fight club that evolves into something much, much more..." data-duration="139" data-stars="Brad Pitt, Edward Norton, Helena Bonham Carter" 
+            data-genre= "Drama" data-rating = "8.9" data-parental-rating="R" data-year="1999">
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/f/fc/Fight_Club_poster.jpg" width="220" height="342">
+    <h2>Fight Club</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="agWcTyXrjfM" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Hardhome"
+            data-storyline="Tyrion advises Daenerys. Sansa forces Theon to tell her a secret. Cersei remains stubborn. Arya meets her first target. Jon and Tormund meet with the Wildling Elders." data-duration="61" data-stars="Peter Dinklage, Lena Headey, Emilia Clarke" 
+            data-genre= "Adventure, Drama, Fantasy" data-rating = "9.8" data-parental-rating="TV-MA" data-seasontitle = "Game of Thrones" data-season="5" data-episode="8" data-tvstation="HBO">
+
+    <img src="http://watchersonthewall.com/wp-content/uploads/2015/02/GOT-S5-Poster.jpg" width="220" height="342">
+    <h2>Hardhome</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="RV0ay9zEG64" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "How Your Mother Met Me"
+            data-storyline="The story of The Mother, from her traumatic 21st birthday to a number of close calls with meeting Ted to the night before Barney and Robin's wedding." data-duration="23" data-stars="Josh Radnor, Jason Segel, Cobie Smulders" 
+            data-genre= "Comedy, Romance" data-rating = "9.5" data-parental-rating="TV-14" data-seasontitle = "How I Met Your Mother" data-season="9" data-episode="16" data-tvstation="CBS">
+
+    <img src="http://vignette2.wikia.nocookie.net/himym/images/f/f1/How-i-met-your-mother-season-9-dvd-cover.jpg/revision/latest?cb=20141004223440" width="220" height="342">
+    <h2>How Your Mother Met Me</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="cZ_86XTkyz8" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "Slap Bet"
+            data-storyline="The gang discovers that Robin's been hiding a huge secret, but they have no idea what it is. Marshall thinks she is married, and Barney thinks she was a porn star." data-duration="23" data-stars="Josh Radnor, Jason Segel, Cobie Smulders" 
+            data-genre= "Comedy, Romance" data-rating = "9.4" data-parental-rating="TV-14" data-seasontitle = "How I Met Your Mother" data-season="2" data-episode="9" data-tvstation="CBS">
+
+    <img src="http://tvstock.net/sites/default/files/poster-how-i-met-your-mother-season-7.jpg" width="220" height="342">
+    <h2>Slap Bet</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="Eibl9JIpcKk" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "The Last One: Part 2"
+            data-storyline="Rachel is leaving for her job in Paris. Monica and Chandler are packing up the apartment." data-duration="22" data-stars="Jennifer Aniston, Courteney Cox, Lisa Kudrow" 
+            data-genre= "Comedy, Romance" data-rating = "9.7" data-parental-rating="TV-PG" data-seasontitle = "Friends" data-season="10" data-episode="18" data-tvstation="NBC">
+
+    <img src="http://pics.filmaffinity.com/Friends_Serie_de_TV-888842701-large.jpg" width="220" height="342">
+    <h2>The Last One: Part 2</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 video-tile text-center" 
+            data-trailer-youtube-id="bm78r2innnE" data-toggle="modal" 
+            data-target="#videoInfo" data-backdrop="static" data-title = "The Hounds of Baskerville"
+            data-storyline="Sherlock and John investigate the ghosts of a young man who has been seeing monstrous hounds out in the woods where his father died." data-duration="88" data-stars="Benedict Cumberbatch, Martin Freeman, Una Stubbs" 
+            data-genre= "Crime, Drama, Mystery" data-rating = "8.5" data-parental-rating="TV-14" data-seasontitle = "Sherlock" data-season="2" data-episode="2" data-tvstation="BBC One">
+
+    <img src="https://lh4.ggpht.com/LY5atFtolosm_TGq5VjVxwFigtQ5J40sL_vYIdr3XRI-SyWC_mRJdyihI8HaWeoZTA=h900" width="220" height="342">
+    <h2>The Hounds of Baskerville</h2>
+</div>
+
+    </div>
+  </body>
+</html>
